@@ -2,7 +2,7 @@ name: Trivy Security Scanner
 on:
   push:
     branches:
-      - main
+      - 9-26.04
   pull_request:
 
 jobs:
@@ -20,19 +20,19 @@ jobs:
           sudo snap install rockcraft --classic
       - uses: actions/download-artifact@v4
         with:
-          name: charmed-valkey-rock
+          name: valkey-rock
           path: .
       - name: Import locally
         run: |
           rock_image_version=$(yq '(.version)' rockcraft.yaml)
           sudo rockcraft.skopeo --insecure-policy copy \
-            oci-archive:charmed-valkey_${rock_image_version}_amd64.rock \
-            docker-daemon:trivy/charmed-valkey:test
+            oci-archive:valkey_${rock_image_version}_amd64.rock \
+            docker-daemon:trivy/valkey:test
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.35.0
         with:
-          image-ref: "trivy/charmed-valkey:test"
+          image-ref: "trivy/valkey:test"
           format: "sarif"
           output: "trivy-results.sarif"
           severity: "MEDIUM,HIGH,CRITICAL"

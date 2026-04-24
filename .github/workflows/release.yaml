@@ -17,13 +17,13 @@ jobs:
     name: Build rock
     uses: canonical/data-platform-workflows/.github/workflows/build_rock.yaml@v42.0.1
 
-  release:
-    name: Release rock
-    needs:
-      - build
-    uses: canonical/data-platform-workflows/.github/workflows/release_rock.yaml@v42.0.1
-    with:
-      artifact-prefix: ${{ needs.build.outputs.artifact-prefix }}
-    permissions:
-      packages: write # Needed to publish to GitHub Container Registry
-      contents: write # Needed to create git tags
+#  release:
+#    name: Release rock
+#    needs:
+#      - build
+#    uses: canonical/data-platform-workflows/.github/workflows/release_rock.yaml@v42.0.1
+#    with:
+#      artifact-prefix: ${{ needs.build.outputs.artifact-prefix }}
+#    permissions:
+#      packages: write # Needed to publish to GitHub Container Registry
+#      contents: write # Needed to create git tags
