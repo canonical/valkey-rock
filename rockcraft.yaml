@@ -4,7 +4,7 @@
 name: valkey
 base: ubuntu@26.04
 build-base: devel # to be removed once 26.04 is released to stable
-version: "9.0.1"
+version: "9.0.3"
 summary: Valkey ROCK OCI
 description: |
   This is an OCI image that bundles Valkey together with the metrics exporter
@@ -25,23 +25,28 @@ services:
     startup: enabled
     summary: Start Valkey
     command: "valkey-server --dir /var/lib/valkey"
-  metric_exporter:
-    override: replace
-    startup: enabled
-    summary: Start Metrics Exporter
-    command: "/bin/redis_exporter"
 
 parts:
   valkey:
     plugin: nil
-    stage-snaps:
-      - valkey/9/edge
+    source: bld:valkey
+    source-channel: 9.0-26.04/edge
     stage-packages:
       - openssl
   valkey-user:
     plugin: nil
     after:
       - valkey
-    override-prime: |
-      mkdir -p $CRAFT_PRIME/var/lib/valkey
-      chown -R 584792:584792 $CRAFT_PRIME/var/lib/valkey
+    override-build: |
+      # Needed for bare base
+      # https://github.com/canonical/rockcraft/issues/193#issuecomment-1429594574
+      mkdir $CRAFT_PART_INSTALL/etc
+      chmod 755 $CRAFT_PART_INSTALL/etc
+      
+      # Create a user in the ${CRAFT_PART_INSTALL} chroot
+      groupadd -R ${CRAFT_PART_INSTALL} -g  584788 valkey
+      useradd -R ${CRAFT_PART_INSTALL} -M -r -g valkey -u 584788 valkey
+      
+      # add directory for storing data
+      mkdir -p ${CRAFT_PART_INSTALL}/var/lib/valkey
+      chown -R 584788:584788 ${CRAFT_PART_INSTALL}/var/lib/valkey
