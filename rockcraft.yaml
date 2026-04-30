@@ -2,8 +2,8 @@
 # See LICENSE-rock file for licensing details.
 ---
 name: valkey
-base: ubuntu@26.04
-build-base: devel # to be removed once 26.04 is released to stable
+base: bare
+build-base: devel
 version: "9.0.3"
 summary: Valkey ROCK OCI
 description: |
