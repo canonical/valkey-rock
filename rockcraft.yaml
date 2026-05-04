@@ -24,7 +24,7 @@ services:
     override: replace
     startup: enabled
     summary: Start Valkey
-    command: "usr/bin/valkey-server --dir /var/lib/valkey"
+    command: "valkey-server --dir /var/lib/valkey"
 
 parts:
   valkey:
