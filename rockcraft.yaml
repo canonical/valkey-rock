@@ -31,7 +31,15 @@ parts:
     plugin: nil
     source: sourcecraft:valkey
     source-channel: 9.0-26.04/edge
+    override-build: |
+      mkdir -p ${CRAFT_PART_INSTALL}/usr
+      make BUILD_TLS=yes
+      PREFIX=${CRAFT_PART_INSTALL}/usr make BUILD_TLS=yes install
+    build-packages:
+      - libssl-dev
     stage-packages:
+      - bash
+      - libssl-dev
       - openssl
   valkey-user:
     plugin: nil
