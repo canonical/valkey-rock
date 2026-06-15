@@ -38,7 +38,7 @@ prepare() {
     snap refresh --hold
 
     if systemctl is-enabled unattended-upgrades.service; then
-        systemctl stop unattended-upgrades.service
+        systemctl disable --now unattended-upgrades.service
         systemctl mask unattended-upgrades.service
     fi
 }
@@ -95,7 +95,7 @@ allocate_lxdvm() {
 }
 
 discard_lxdvm() {
-    instance_name="$(lxc ls -f csv | grep ",$SPREAD_SYSTEM_ADDRESS " | cut -f1 -d",")"
+    instance_name="$(lxc ls -f csv | sed ':a;N;$!ba;s/(docker0)\n/(docker0) /' | grep "$SPREAD_SYSTEM_ADDRESS " | cut -f1 -d",")"
     lxc delete -f "$instance_name"
 }
 

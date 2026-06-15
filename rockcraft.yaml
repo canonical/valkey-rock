@@ -4,7 +4,7 @@
 name: valkey
 base: bare
 build-base: devel
-version: "9.0.3"
+version: "9.1.0"
 summary: Valkey ROCK OCI
 description: |
   This is an OCI image that bundles Valkey together with the metrics exporter
@@ -28,15 +28,9 @@ services:
 
 parts:
   valkey:
-    plugin: nil
-    source: sourcecraft:valkey
-    source-channel: 9.0-26.04/edge
-    override-build: |
-      mkdir -p ${CRAFT_PART_INSTALL}/usr
-      make BUILD_TLS=yes
-      PREFIX=${CRAFT_PART_INSTALL}/usr make BUILD_TLS=yes install
-    build-packages:
-      - libssl-dev
+    plugin: dump
+    source: bld:valkey
+    source-channel: 9.1-26.04/edge
     stage-packages:
       - bash
       - libssl-dev
@@ -50,11 +44,11 @@ parts:
       # https://github.com/canonical/rockcraft/issues/193#issuecomment-1429594574
       mkdir $CRAFT_PART_INSTALL/etc
       chmod 755 $CRAFT_PART_INSTALL/etc
-      
+
       # Create a user in the ${CRAFT_PART_INSTALL} chroot
       groupadd -R ${CRAFT_PART_INSTALL} -g  584788 valkey
       useradd -R ${CRAFT_PART_INSTALL} -M -r -g valkey -u 584788 valkey
-      
+
       # add directory for storing data
       mkdir -p ${CRAFT_PART_INSTALL}/var/lib/valkey
       chown -R 584788:584788 ${CRAFT_PART_INSTALL}/var/lib/valkey
