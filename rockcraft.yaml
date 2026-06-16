@@ -2,7 +2,7 @@
 # See LICENSE-rock file for licensing details.
 ---
 name: valkey
-base: bare
+base: ubuntu@26.04
 build-base: devel
 version: "9.1.0"
 summary: Valkey ROCK OCI
