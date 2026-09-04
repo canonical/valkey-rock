@@ -1,5 +1,5 @@
 # Valkey rock
-[![Release to GHCR](https://github.com/canonical/valkey-rock/actions/workflows/release.yaml/badge.svg)](https://github.com/canonical/valkey-rock/actions/workflows/release.yaml)
+[![Publish artifacts](https://github.com/canonical/valkey-artifacts/actions/workflows/publish.yaml/badge.svg)](https://github.com/canonical/valkey-artifacts/actions/workflows/publish.yaml)
 
 This repository contains the packaging metadata for creating a rock image of Valkey. For more information on rocks, 
 visit the [rockcraft Github](https://github.com/canonical/rockcraft).
@@ -10,15 +10,14 @@ If you are using another version of Ubuntu or another operating system, the proc
 
 ### Clone Repository
 ```bash
-git clone git@github.com:canonical/valkey-rock.git
-cd valkey-rock
+git clone git@github.com:canonical/valkey-artifacts.git
+cd valkey-artifacts/valkey/rocks/standard
 ```
 ### Installing Prerequisites
 ```bash
 sudo snap install rockcraft --edge --classic
 sudo snap install docker
 sudo snap install lxd
-sudo apt-get -y update && sudo apt-get -y install skopeo
 ```
 ### Configuring Prerequisites
 ```bash
@@ -29,7 +28,7 @@ sudo lxd init --auto
 ### Packing and Running the rock
 ```bash
 rockcraft pack
-sudo skopeo --insecure-policy copy oci-archive:valkey*.rock docker-daemon:valkey:<tag>
+rockcraft.skopeo --insecure-policy copy oci-archive:valkey*.rock docker-daemon:valkey:<tag>
 docker run --rm -it valkey:<tag>
 ```
 
