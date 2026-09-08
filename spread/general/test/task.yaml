@@ -1,5 +1,4 @@
-summary: Valkey rock smoke test
+summary: test the 'valkey' project
 
 execute: |
-  echo "Running smoke test..."
   docker exec -t "${SPREAD_TASK//\//_}" valkey-cli info
